@@ -10,6 +10,18 @@ app.use(express.json());
 const client = new vision.ImageAnnotatorClient({
   keyFilename: "./keyfile.json",
 });
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization,On-behalf-of, x-sg-elas-acl"
+  );
+  next();
+});
 
 app.post("/ocr", upload.single("image"), async (req, res) => {
   try {
