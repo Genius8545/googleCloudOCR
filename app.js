@@ -20,19 +20,19 @@ app.post("/ocr", upload.single("image"), async (req, res) => {
     imagePath = results.secure_url;
     const [result] = await client.textDetection(imagePath);
     const ocrResult = result.textAnnotations[0].description;
-    const output = fs.writeFileSync(
-      "output.txt",
-      `${ocrResult}`,
-      function (err) {
-        if (err) throw err;
-        console.log("OCR result saved to result.txt");
-      }
-    );
+    // const output = fs.writeFileSync(
+    //   "output.txt",
+    //   `${ocrResult}`,
+    //   function (err) {
+    //     if (err) throw err;
+    //     console.log("OCR result saved to result.txt");
+    //   }
+    // );
 
-    res.send({ result: result.textAnnotations[0].description,output });
+    res.status(200).json({ status: "success", ocrResult });
   } catch (err) {
     // console.error(err);
-    res.status(500).send({ err  });
+    res.status(500).send({ err });
   }
 });
 
