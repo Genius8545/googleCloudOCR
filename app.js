@@ -31,8 +31,8 @@ app.post("/ocr", upload.single("image"), async (req, res) => {
 
     res.send({ result: result.textAnnotations[0].description,output });
   } catch (err) {
-    console.error(err);
-    res.status(500).send({ error: "OCR failed." });
+    // console.error(err);
+    res.status(500).send({ err  });
   }
 });
 
