@@ -1,15 +1,18 @@
 const express = require("express");
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
 const vision = require("@google-cloud/vision");
 const fs = require("fs");
 const cloudinary = require("./utils/cloudinary");
 const upload = require("./utils/multer");
-
+const apiKeyMiddleware = require('./utils/apiKeyMiddleware')
 const app = express();
 app.use(express.json());
 
 const client = new vision.ImageAnnotatorClient({
   keyFilename: "./keyfile.json",
 });
+
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -22,7 +25,7 @@ app.use(function (req, res, next) {
   );
   next();
 });
-
+app.use(apiKeyMiddleware)
 app.post("/ocr", upload.single("image"), async (req, res) => {
   try {
     const results = await cloudinary.uploader.upload(req.file.path, {
