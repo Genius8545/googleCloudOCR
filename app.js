@@ -5,7 +5,7 @@ const vision = require("@google-cloud/vision");
 const fs = require("fs");
 const cloudinary = require("./utils/cloudinary");
 const upload = require("./utils/multer");
-const apiKeyMiddleware = require('./utils/apiKeyMiddleware')
+// const apiKeyMiddleware = require('./utils/apiKeyMiddleware')
 const app = express();
 app.use(express.json());
 
@@ -25,7 +25,7 @@ app.use(function (req, res, next) {
   );
   next();
 });
-app.use(apiKeyMiddleware)
+// app.use(apiKeyMiddleware)
 app.post("/ocr", upload.single("image"), async (req, res) => {
   try {
     const results = await cloudinary.uploader.upload(req.file.path, {
