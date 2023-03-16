@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 const client = new vision.ImageAnnotatorClient({
-  keyFilename: "/media/genius/Learn/chatGPT/googleCloudVision/keyfile.json",
+  keyFilename: "./keyfile.json",
 });
 
 app.post("/ocr", upload.single("image"), async (req, res) => {
