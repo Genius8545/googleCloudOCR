@@ -28,29 +28,29 @@ app.use(function (req, res, next) {
 // app.use(apiKeyMiddleware)
 app.post("/ocr", upload.single("image"), async (req, res) => {
   try {
-    const results = await cloudinary.uploader.upload(req.file.path, {
-      tags: "liscences",
-      folder: "liscences/",
-    });
-    imagePath = results.secure_url;
-    const [result] = await client.textDetection(imagePath);
+    // const results = await cloudinary.uploader.upload(req.file.path, {
+    //   tags: "liscences",
+    //   folder: "liscences/",
+    // });
+    // imagePath = results.secure_url;
+    const [result] = await client.textDetection(req.file.path);
     const ocrResult = result.textAnnotations[0].description;
-    // const output = fs.writeFileSync(
-    //   "output.txt",
-    //   `${ocrResult}`,
-    //   function (err) {
-    //     if (err) throw err;
-    //     console.log("OCR result saved to result.txt");
-    //   }
-    // );
+    const output = fs.appendFileSync(
+      "output.txt",
+      `${ocrResult}`,
+      function (err) {
+        if (err) throw err;
+        console.log("OCR result saved to result.txt");
+      }
+    );
 
     res.status(200).json({ status: "success", ocrResult });
   } catch (err) {
-    // console.error(err);
+    console.log(err);
     res.status(500).send({ err });
   }
 });
 
-app.listen(3000, () => {
+app.listen(8080, () => {
   console.log("Server running on port 3000");
 });
