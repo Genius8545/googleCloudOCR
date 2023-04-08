@@ -35,14 +35,14 @@ app.post("/ocr", upload.single("image"), async (req, res) => {
     // imagePath = results.secure_url;
     const [result] = await client.textDetection(req.file.path);
     const ocrResult = result.textAnnotations[0].description;
-    const output = fs.appendFileSync(
-      "output.txt",
-      `${ocrResult}`,
-      function (err) {
-        if (err) throw err;
-        console.log("OCR result saved to result.txt");
-      }
-    );
+    // const output = fs.appendFileSync(
+    //   "output.txt",
+    //   `${ocrResult}`,
+    //   function (err) {
+    //     if (err) throw err;
+    //     console.log("OCR result saved to result.txt");
+    //   }
+    // );
 
     res.status(200).json({ status: "success", ocrResult });
   } catch (err) {
