@@ -35,6 +35,8 @@ app.post("/ocr", upload.single("image"), async (req, res) => {
     // imagePath = results.secure_url;
     const [result] = await client.textDetection(req.file.path);
     const ocrResult = result.textAnnotations[0].description;
+
+
     // const output = fs.appendFileSync(
     //   "output.txt",
     //   `${ocrResult}`,
@@ -44,7 +46,7 @@ app.post("/ocr", upload.single("image"), async (req, res) => {
     //   }
     // );
 
-    res.status(200).json({ status: "success", ocrResult });
+    res.status(200).json({ status: "success", ocrResult ,split: ocrResult.split("\n")});
   } catch (err) {
     console.log(err);
     res.status(500).send({ err });
